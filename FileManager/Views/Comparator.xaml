@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="FileManager.Views.Comparator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FileManager.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="Comparator">
+
+    <Grid>
+        <TextBox x:Name="TextBoxCompare" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="compare files here" Background="{x:Null}"/>
+
+    </Grid>
+</Page>

@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="FileManager.Views.Default"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FileManager.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="DefaultView">
+
+    <Grid>
+        <TextBox x:Name="TextBoxDefaultView" HorizontalAlignment="Center" TextWrapping="Wrap" Text="This is the default page. " VerticalAlignment="Center" Height="124" Width="362" Background="#6600A202" FontSize="36"/>
+
+    </Grid>
+</Page>

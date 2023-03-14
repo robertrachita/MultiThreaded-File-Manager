@@ -9,6 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <NavigationView x:Name="NavView" ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" SelectionChanged="NavView_SelectionChanged" BackRequested="NavView_BackRequested" IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="File Search" Tag="FileSystem" Icon="Find"></NavigationViewItem>
+                <NavigationViewItem Content="File Comparison" Tag="Comparator" Icon="Accept"></NavigationViewItem>
+                <NavigationViewItem Content="CRUD" Tag="CRUD" Icon="Copy"></NavigationViewItem>
+                <NavigationViewItem Content="Tree View" Tag="Tree" Icon="Library"></NavigationViewItem>
+                <NavigationViewItem Content="SFTP" Tag="SFTP" Icon="World"></NavigationViewItem>
+            </NavigationView.MenuItems>
+            <Frame x:Name="ContentFrame" NavigationFailed="ContentFrame_NavigationFailed"></Frame>
+        </NavigationView>
+        
     </Grid>
 </Page>
