@@ -42,62 +42,37 @@ namespace FileManager.Views
             }
         }
 
-        public IEnumerable<string> Search(String searchTerm, String searchPath, String searchExtension)
+        public List<StorageFile> Search(String searchTerm, String searchPath)
         {
             //var options = new QueryOptions(CommonFileQuery.DefaultQuery, new[] { searchTerm, ".exe"});
-            List<String> searchExtensionFilter = new List<String>
-            {
-                searchExtension
-            };
-            var options = new QueryOptions(CommonFileQuery.DefaultQuery, searchExtensionFilter);
-            var folder = StorageFolder.GetFolderFromPathAsync(searchPath).GetAwaiter().GetResult();
-            var query = folder.CreateFileQueryWithOptions(options);
+            //List<String> searchExtensionFilter = new List<String>
+            //{
+            //    searchExtension
+            //};
+            var searchFolder = StorageFolder.GetFolderFromPathAsync(searchPath).GetAwaiter().GetResult();
+            var result = new List<StorageFile>();
 
-            var files = new List<string>();
-
-            // Execute the query synchronously
-            var queryResults = query.GetFilesAsync().GetAwaiter().GetResult();
-
-            var threads = new List<Thread>();
-
-            foreach (var file in queryResults)
+            var threadList = new List<Thread>();
+            foreach (var folder in searchFolder.GetFoldersAsync().GetAwaiter().GetResult())
             {
                 var thread = new Thread(() =>
                 {
-                    try
-                    {
-                        // Read the file contents
-                        var text = FileIO.ReadTextAsync(file).GetAwaiter().GetResult();
-
-                        // Add the file path to the list if the search term is found
-                        if (text.Contains(searchTerm))
-                        {
-                            lock (files)
-                            {
-                                files.Add(file.Path);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any exceptions that occur during file reading
-                        Console.WriteLine($"Error reading file {file.Path}: {ex}");
-                    }
+                    result.AddRange(SearchFilesInFolder(folder, searchTerm));
                 });
-
-                threads.Add(thread);
+                threadList.Add(thread);
                 thread.Start();
             }
 
+
             // Wait for all threads to complete
-            foreach (var thread in threads)
+            foreach (var thread in threadList)
             {
                 thread.Join();
             }
 
-            var textBlock = FindName("SearchFoundTextBlock") as TextBlock;
-            textBlock.Text = "Found " + files.Count + " files";
-            return files;
+            var textBlock = FindName("SeachFoundTextblock") as TextBlock;
+            textBlock.Text = "Found " + result.Count + " files";
+            return result;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -108,7 +83,32 @@ namespace FileManager.Views
             }
             //SearchNameTextbox.Text = "'" + SearchNameTextbox.Text + "'";
             //Search(SearchNameTextbox.Text, SearchPathTextbox.Text);
-            Search("yes", "C:\\Users\\rober\\Desktop\\Work\\MultiThreaded-File-Manager\\FileManager", ".exe");
+            Search("MainPage.xaml", "C:\\Users\\rober\\Desktop\\Work\\MultiThreaded-File-Manager\\FileManager");
+        }
+
+        private static List<StorageFile> SearchFilesInFolder(StorageFolder folder, string searchTerm)
+        {
+            var result = new List<StorageFile>();
+
+            foreach (var file in folder.GetFilesAsync().GetAwaiter().GetResult())
+            {
+                if (file.Name.Contains(searchTerm))
+                {
+                    result.Add(file);
+                }
+            }
+
+            foreach (var subFolder in folder.GetFoldersAsync().GetAwaiter().GetResult())
+            {
+                result.AddRange(SearchFilesInFolder(subFolder, searchTerm));
+            }
+
+            return result;
+        }
+
+        private void SeachFoundTextblock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
