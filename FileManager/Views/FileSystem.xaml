@@ -12,6 +12,7 @@
         <TextBlock x:Name="SearchDescriptionText" HorizontalAlignment="Left" Margin="112,67,0,0" TextWrapping="Wrap" Text="Please type in the name of the file you want to search for without the extension, and the path where you want to search. If you leave the path emtpy it will default to the C:/ drive" VerticalAlignment="Top" FontSize="24" Width="898"/>
         <TextBox x:Name="SearchNameTextbox" HorizontalAlignment="Left" Margin="112,199,0,0" TextWrapping="Wrap" PlaceholderText="search for..." Text="" VerticalAlignment="Top" FontSize="36" Width="293" TextChanged="SearchNameTextbox_TextChanged"/>
         <TextBox x:Name="SearchPathTextbox" HorizontalAlignment="Left" Margin="112,307,0,0" TextWrapping="Wrap" PlaceholderText="path" Text="" VerticalAlignment="Top" FontSize="36" Width="293"/>
-        <Button x:Name="SearchButton" IsEnabled="False" Content="Search" Margin="112,419,0,0" VerticalAlignment="Top" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" />
+        <Button x:Name="SearchButton" IsEnabled="False" Content="Search" Margin="112,419,0,0" VerticalAlignment="Top" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" Click="SearchButton_Click" />
+        <TextBlock x:Name="SeachFoundTextblock" HorizontalAlignment="Left" Margin="112,568,0,0" TextWrapping="Wrap" Text="Your file is ..." VerticalAlignment="Top" FontSize="48"/>
     </Grid>
 </Page>
