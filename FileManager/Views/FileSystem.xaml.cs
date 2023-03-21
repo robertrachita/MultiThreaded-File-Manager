@@ -27,5 +27,16 @@ namespace FileManager.Views
             this.InitializeComponent();
         }
 
+        private void SearchNameTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SearchNameTextbox.Text == "")
+            {
+                SearchButton.IsEnabled = false;
+            }
+            else
+            {
+                SearchButton.IsEnabled = true;
+            }
+        }
     }
 }
