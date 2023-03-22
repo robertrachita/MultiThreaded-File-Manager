@@ -70,8 +70,7 @@ namespace FileManager.Views
                 thread.Join();
             }
 
-            var textBlock = FindName("SeachFoundTextblock") as TextBlock;
-            textBlock.Text = "Found " + result.Count + " files";
+            
             return result;
         }
 
@@ -104,6 +103,12 @@ namespace FileManager.Views
             }
 
             return result;
+        }
+
+        private void changeText(String message)
+        {
+            var textBlock = FindName("SeachFoundTextblock") as TextBlock;
+            textBlock.Text = message;
         }
 
         private void SeachFoundTextblock_SelectionChanged(object sender, RoutedEventArgs e)
