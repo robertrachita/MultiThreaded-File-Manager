@@ -88,7 +88,7 @@ namespace FileManager.Views
         private static List<StorageFile> SearchFilesInFolder(StorageFolder folder, string searchTerm)
         {
             var result = new List<StorageFile>();
-
+            //ask to stop
             foreach (var file in folder.GetFilesAsync().GetAwaiter().GetResult())
             {
                 if (file.Name.Contains(searchTerm))
