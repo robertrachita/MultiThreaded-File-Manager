@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,9 +28,22 @@ namespace FileManager.Views
             this.InitializeComponent();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Textbox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (TextBoxCrud.Text == "")
+            {
+                CopyButton.IsEnabled = false;
+            }
+            else
+            {
+                CopyButton.IsEnabled = true;
+            }
+        }
 
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            File.Copy(@"c:\Users\levis\OneDrive\Asztali gép\dnd.png", @"c:\Users\levis\OneDrive\asd.png", true);
+            Trace.WriteLine("button clicked");
         }
     }
 }
