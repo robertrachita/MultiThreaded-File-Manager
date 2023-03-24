@@ -9,8 +9,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="Comparator">
 
     <Grid>
-        <TextBox x:Name="TextBoxCompare" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="compare files here" Background="{x:Null}" TextChanged="TextBoxCompare_TextChanged"/>
-        <Button Content="Compare files" Margin="750,705,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <TextBox x:Name="TextBoxCompare" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="compare files here" Background="{x:Null}"/>
+        <Button Content="Compare files" Margin="494,625,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Compare files2" Margin="837,625,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Compare" Margin="688,684,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
 
     </Grid>
 </Page>
