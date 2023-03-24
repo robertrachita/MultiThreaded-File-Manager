@@ -90,7 +90,7 @@ namespace FileManager
 
                 var success = await Launcher.LaunchUriAsync(new Uri(appUri));
                 
-                await Task.Delay(20000);
+                await Task.Delay(30000);
 
 
                 throw new Exception("Not able to access C drive. Please grant access to C drive and restart the application.");

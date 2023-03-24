@@ -27,7 +27,7 @@ namespace FileManager.Views
             this.InitializeComponent();
             if (App.NotHavePermission)
             {
-                TextBoxDefaultView.Text = "If you see this message, the application does not have sufficient permissions to run properly. In order to solve this, the Settings App will be launched in ~20 seconds. Please search for the 'FileManager' app, select 'Advanced Options' from the 3 dots menu  on the right, and tick the 'File system' slider under the 'App permissions' tab. The app will close itself soon, please restart to use it."; 
+                TextBoxDefaultView.Text = "If you see this message, the application does not have sufficient permissions to run properly. In order to solve this, the Settings App has been launched. Please search for the 'FileManager' app, select 'Advanced Options' from the 3 dots menu  on the right, and tick the 'File system' slider under the 'App permissions' tab. The app will close itself soon, please restart it after granting the rights."; 
             }
             else
             {
