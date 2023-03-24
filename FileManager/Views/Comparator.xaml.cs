@@ -31,5 +31,39 @@ namespace FileManager.Views
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string path1;
+            string path2;
+            pickAFile();
+        }
+
+        private async void pickAFile()
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.FileTypeFilter.Add("*");
+            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            
+        }
+
+        private bool FileEquals_by_bytes_singleThreaded(string path1, string path2)
+        {
+            byte[] file1 = File.ReadAllBytes(path1);
+            byte[] file2 = File.ReadAllBytes(path2);
+            if (file1.Length == file2.Length) 
+            {
+                for (int i = 0; i < file1.Length; i++) 
+                {
+                    if (file1[i] != file2[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
     }
 }
