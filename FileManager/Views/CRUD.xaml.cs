@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,10 +43,18 @@ namespace FileManager.Views
             }
         }
 
-        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        private async void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            File.Copy(@"c:\Users\levis\OneDrive\Asztali gép\dnd.png", @"c:\Users\levis\OneDrive\asd.png", true);
-            Trace.WriteLine("button clicked");
+            StorageFile fileToCopy = await StorageFile.GetFileFromPathAsync("C:\\test.txt");
+            StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync("C:\\test");
+            await CopyFileAsync(fileToCopy, destinationFolder);
+        }
+
+        public async Task CopyFileAsync(StorageFile sourceFile, StorageFolder destinationFolder)
+        {
+            string newFileName = sourceFile.Name;
+            StorageFile newFile = await destinationFolder.CreateFileAsync(newFileName, CreationCollisionOption.GenerateUniqueName);
+            await sourceFile.CopyAndReplaceAsync(newFile);
         }
     }
 }
