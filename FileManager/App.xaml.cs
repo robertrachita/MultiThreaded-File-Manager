@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -20,12 +24,14 @@ namespace FileManager
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
+    
     sealed partial class App : Application
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+        public static bool NotHavePermission { get; set; } = false;
         public App()
         {
             this.InitializeComponent();
@@ -37,7 +43,7 @@ namespace FileManager
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -71,7 +77,37 @@ namespace FileManager
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+            try
+            {
+                var cDrive =  StorageFolder.GetFolderFromPathAsync("C:\\").GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                NotHavePermission = true;
+                string packageFamilyName = Package.Current.Id.FamilyName;
+                string appUri = $"ms-settings:appsfeatures";
+                //string appUri = $"ms-settings:appsfeatures-appx://{packageFamilyName}";
+
+                var success = await Launcher.LaunchUriAsync(new Uri(appUri));
+                
+                await Task.Delay(30000);
+
+
+                throw new Exception("Not able to access C drive. Please grant access to C drive and restart the application.");
+                //Application.Current.Exit();
+
+            }
         }
+
+        //public static bool HasCapacity()
+        //{
+        //    if (this.success)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
+        
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
