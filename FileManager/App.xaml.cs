@@ -92,7 +92,6 @@ namespace FileManager
                 
                 await Task.Delay(30000);
 
-
                 throw new Exception("Not able to access C drive. Please grant access to C drive and restart the application.");
                 //Application.Current.Exit();
 
