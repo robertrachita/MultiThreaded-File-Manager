@@ -131,11 +131,6 @@ namespace FileManager.Views
             textBlock.Text += "Note that changing to a different tab will cancel the search, but you can minimise the application";
         }
 
-        private void SeachFoundTextblock_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void SearchSelectFolder_Click(object sender, RoutedEventArgs e)
         {
             FolderPicker folderPicker = new FolderPicker();
