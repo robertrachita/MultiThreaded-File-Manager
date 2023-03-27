@@ -98,17 +98,7 @@ namespace FileManager
 
             }
         }
-
-        //public static bool HasCapacity()
-        //{
-        //    if (this.success)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
         
-
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
