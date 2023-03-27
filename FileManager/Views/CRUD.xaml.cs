@@ -31,21 +31,9 @@ namespace FileManager.Views
             this.InitializeComponent();
         }
 
-        private void Textbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (TextBoxCrud.Text == "")
-            {
-                CopyButton.IsEnabled = false;
-            }
-            else
-            {
-                CopyButton.IsEnabled = true;
-            }
-        }
-
         private async void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile fileToCopy = await StorageFile.GetFileFromPathAsync("C:\\test.txt");
+            StorageFile fileToCopy = await StorageFile.GetFileFromPathAsync(TextBoxFileName.Text);
             StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync("C:\\test");
             await CopyFileAsync(fileToCopy, destinationFolder);
         }
@@ -55,6 +43,23 @@ namespace FileManager.Views
             string newFileName = sourceFile.Name;
             StorageFile newFile = await destinationFolder.CreateFileAsync(newFileName, CreationCollisionOption.GenerateUniqueName);
             await sourceFile.CopyAndReplaceAsync(newFile);
+        }
+
+        private void TextboxFileName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxFileName.Text == "")
+            {
+                CopyButton.IsEnabled = false;
+            }
+            else
+            {
+                CopyButton.IsEnabled = true;
+            }
+        }
+
+        private void TextboxDestFolderName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

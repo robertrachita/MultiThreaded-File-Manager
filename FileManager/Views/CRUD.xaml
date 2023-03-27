@@ -9,7 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CRUD">
 
     <Grid RenderTransformOrigin="0.539,0.531">
-        <TextBox x:Name="TextBoxCrud" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="crud" Background="{x:Null}" TextChanged="Textbox_TextChanged"/>
+        <TextBox x:Name="TextBoxFileName" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="" Background="{x:Null}" TextChanged="TextboxFileName_TextChanged" PlaceholderText="File to copy"/>
+        <TextBox x:Name="TextBoxDestFolderName" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="341" FontSize="36"  Text="" Background="{x:Null}" TextChanged="TextboxDestFolderName_TextChanged" Margin="0,543,0,0" PlaceholderText="Destination folder"/>
         <Button x:Name="CopyButton" IsEnabled="False" Content="Copy" Margin="0,650,0,0" VerticalAlignment="Top" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" Click="CopyButton_Click" HorizontalAlignment="Center" />
     </Grid>
 </Page>
