@@ -48,6 +48,7 @@ namespace FileManager.Views
             openPicker.FileTypeFilter.Add("*");
             IReadOnlyList<StorageFile> filelist = await openPicker.PickMultipleFilesAsync();
             if( filelist.Count > 0) {
+                await Task.Run(() => server.connectClient());
                 server.UploadTask("/public/", filelist);
             }    
         }
@@ -60,6 +61,7 @@ namespace FileManager.Views
             openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             openPicker.FileTypeFilter.Add("*");
             IReadOnlyList<StorageFile> filelist = await openPicker.PickMultipleFilesAsync();
+            await Task.Run(() => server.connectClient());
             server.downloadAsync(filelist);
         }
 
@@ -72,6 +74,7 @@ namespace FileManager.Views
             IReadOnlyList<StorageFile> filelist = await openPicker.PickMultipleFilesAsync();
             if (filelist.Count > 0)
             {
+                await Task.Run(() => server.connectClient());
                 server.UploadWithoutTask("/public/", filelist);
             }
         }

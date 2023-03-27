@@ -20,19 +20,30 @@ namespace FileManager
         public SftpClient sftpClient;
 
         public Server(string host, int port, string username, string password) {
-            sftpClient = new SftpClient(host, port, username, password);
+            try { 
+                sftpClient = new SftpClient(host, port, username, password); 
+            } catch (Exception e) 
+            { 
+                Debug.WriteLine(e.Message); 
+            };
             
-            disConnectClient();
-            connectClient();
         }
         
-
-        private void connectClient() { 
-            this.sftpClient.Connect();
+        public void connectClient() {
+            try { 
+                sftpClient.Connect(); 
+            } catch (Exception e) { 
+                Debug.WriteLine(e.Message);
+            };
         }
         private void disConnectClient()
         {
-            this.sftpClient.Disconnect();
+            try { 
+                this.sftpClient.Disconnect(); 
+            } catch (Exception e) {
+                Debug.WriteLine(e.Message); 
+            };
+            
         }
 
         private void downloadFiles(IReadOnlyList<StorageFile> files,string destiantion) {

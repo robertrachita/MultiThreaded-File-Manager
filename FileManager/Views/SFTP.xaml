@@ -37,7 +37,7 @@
             Grid.Row="1" 
             FontWeight="Bold"  
             HorizontalAlignment="Center" 
-            VerticalAlignment="Center" Height="118" 
+            VerticalAlignment="Center" Height="301" 
             xml:space="preserve">
         For uploading multiple files the file sizes must be low in order to avoid server connection crash.
         Uploading big file only works if there is no other files beside it.
