@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,14 +51,14 @@ namespace FileManager.Views
             }
         }
 
-        private async void generateHash(StorageFile file)
+        private async void generateByte(StorageFile file)
         {
             if (file != null)
             {
                 using (Stream fileStr = await file.OpenStreamForReadAsync())
                 {
                     byte[] bytes = new byte[fileStr.Length];
-                    
+
                     const int BUFFER_SIZE = 1024;
                     byte[] buffer = new byte[BUFFER_SIZE];
                     int position = 0;
@@ -79,7 +80,7 @@ namespace FileManager.Views
             }
         }
 
-        private async void generate_hash2(StorageFile file)
+        private async void generate_byte2(StorageFile file)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
@@ -116,8 +117,8 @@ namespace FileManager.Views
             }
             TextBoxCompare.Text = "";
 
-            Thread t1 = new Thread(() => this.generateHash(this.file1));
-            Thread t2 = new Thread(() => this.generateHash(this.file2));
+            Thread t1 = new Thread(() => this.generateByte(this.file1));
+            Thread t2 = new Thread(() => this.generateByte(this.file2));
 
             t1.Start();
             t2.Start();
@@ -151,6 +152,26 @@ namespace FileManager.Views
             }
             return true;
         }
+        private void Single_Thread_Compare(object sender, RoutedEventArgs e)
+        {
+            if (this.file1 == null || this.file2 == null)
+            {
+                return;
+            }
+
+            TextBoxCompare.Text = "";
+            generateByte(this.file1);
+            generateByte(this.file2);
+
+            if (compare(byte1, byte2))
+            {
+                TextBoxCompare.Text = "Files are the same";
+            }
+            else
+            {
+                TextBoxCompare.Text = "Files are not the same";
+            }
+        }
         private string generateHash(string path)
         {
             var computedHash = HashAlgorithmNames.Md5;
@@ -170,9 +191,36 @@ namespace FileManager.Views
             return hex;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private string generate_hash_md5(string path)
         {
-            File.OpenRead(this.file1.Name);
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(path))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "");
+                }
+            }
         }
+
+        private string generate_hash_sha256(string path)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                using (var stream = File.OpenRead(path))
+                {
+
+                    byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(stream));
+                    var sb = new StringBuilder();
+                    for (int i = 0; i < bytes.Length; i++)
+                    {
+                        sb.Append(bytes[i].ToString("x2"));
+                    }
+                    return sb.ToString();
+                }
+
+            }
+        }
+
     }
 }

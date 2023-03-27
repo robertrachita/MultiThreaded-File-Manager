@@ -13,7 +13,7 @@
         <Button Content="Upload file 1" Margin="477,434,0,0" VerticalAlignment="Top" Click="upload_file1"/>
         <Button Content="Upload file 2" Margin="840,429,0,0" VerticalAlignment="Top" Click="upload_file2"/>
         <Button Content="Compare" Margin="688,684,0,0" VerticalAlignment="Top" Click="compare_files"/>
-        <Button Content="Button" Margin="429,717,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Compare with single thread" Margin="429,717,0,0" VerticalAlignment="Top" Click="Single_Thread_Compare"/>
 
     </Grid>
 </Page>
