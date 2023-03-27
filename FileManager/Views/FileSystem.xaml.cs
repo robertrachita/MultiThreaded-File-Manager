@@ -16,14 +16,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using Windows.Storage.Pickers;
 
 namespace FileManager.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class FileSystem : Page
     {
         public FileSystem()
@@ -33,13 +29,18 @@ namespace FileManager.Views
 
         private void SearchNameTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (SearchNameTextbox.Text == "")
+            UpdateSearchButtonState();
+        }
+        
+        private void UpdateSearchButtonState()
+        {
+            if(!String.IsNullOrEmpty(SearchNameTextbox.Text) && !String.IsNullOrEmpty(SearchPathTextbox.Text))
             {
-                SearchButton.IsEnabled = false;
+                SearchButton.IsEnabled = true;
             }
             else
             {
-                SearchButton.IsEnabled = true;
+                SearchButton.IsEnabled = false;
             }
         }
 
@@ -80,20 +81,15 @@ namespace FileManager.Views
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SearchPathTextbox.Text == null || SearchPathTextbox.Text == "")
-            {
-                SearchPathTextbox.Text = "C:\\";
-            }
-            //SearchNameTextbox.Text = "'" + SearchNameTextbox.Text + "'";
-            //Search(SearchNameTextbox.Text, SearchPathTextbox.Text);
-            StartSearch("Docker", "C:\\Users\\rober\\Desktop\\Work");
-            //StartSearch(SearchNameTextbox.Text, SearchPathTextbox.Text);
+            ChangeTextLoading();
+            SearchButton.IsEnabled = false;
+            //StartSearch("Docker", "C:\\Users\\rober\\Desktop\\Work");
+            StartSearch(SearchNameTextbox.Text, SearchPathTextbox.Text);
         }
 
         private static List<StorageFile> SearchFilesInFolder(StorageFolder folder, string searchTerm)
         {
             var result = new List<StorageFile>();
-            //ask to stop
             foreach (var file in folder.GetFilesAsync().GetAwaiter().GetResult())
             {
                 if (file.Name.Contains(searchTerm))
@@ -113,6 +109,11 @@ namespace FileManager.Views
         private void ChangeText(List<StorageFile> message)
         {
             var textBlock = FindName("SeachFoundTextblock") as TextBlock;
+
+            ScrollViewer scrollViewer = FindName("SearchScroll") as ScrollViewer;
+            //scrollViewer.Content = textBlock;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            
             textBlock.Text = "Found " + message.Count.ToString() + " file(s)";
             textBlock.Text += Environment.NewLine;
             foreach (var file in message)
@@ -122,9 +123,43 @@ namespace FileManager.Views
             }
         }
 
+        private void ChangeTextLoading()
+        {
+            var textBlock = FindName("SeachFoundTextblock") as TextBlock;
+            textBlock.Text = "Please wait, search in progress...";
+            textBlock.Text += Environment.NewLine;
+            textBlock.Text += "Note that changing to a different tab will cancel the search, but you can minimise the application";
+        }
+
         private void SeachFoundTextblock_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void SearchSelectFolder_Click(object sender, RoutedEventArgs e)
+        {
+            FolderPicker folderPicker = new FolderPicker();
+            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop; // Set the starting location for the picker
+            //folderPicker.FileTypeFilter.Add("*"); // Set the file type filter to allow all file types
+
+            // Restrict the picker to only allow folders
+            folderPicker.FileTypeFilter.Add(".folder");
+            folderPicker.FileTypeFilter.Add(".directory");
+            folderPicker.FileTypeFilter.Add(".library-ms");
+
+            // Show the folder picker dialog
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+            if (folder != null)
+            {
+                // The user selected a folder, update the UI accordingly
+                SearchPathTextbox.Text = folder.Path;
+            }
+        }
+
+        private void SearchPathTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateSearchButtonState();
         }
     }
 }
