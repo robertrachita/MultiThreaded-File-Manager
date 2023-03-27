@@ -9,8 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CRUD">
 
     <Grid RenderTransformOrigin="0.539,0.531">
-        <Button Content="File to copy" Margin="176,121,0,0" VerticalAlignment="Top" Click="filePick"/>
-        <Button Content="Destination folder" Margin="156,159,0,0" VerticalAlignment="Top" Click="pickFolder"/>
-        <Button x:Name="CopyButton" IsEnabled="True" Content="Copy" Margin="177,233,0,0" VerticalAlignment="Top" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" Click="CopyButton_Click" />
+        <Button x:Name ="folderPicker" Content="Destination folder" Margin="405,328,0,0" VerticalAlignment="Top" Click="ChooseFolder"/>
+        <TextBox x:Name="RenameTextbox" HorizontalAlignment="Left" Margin="237,368,0,0" TextWrapping="Wrap" PlaceholderText="Rename file(s) to:" Text="" VerticalAlignment="Top" FontSize="18" Width="166" TextChanged="RenameTextbox_TextChanged" Height="34"/>
+        <Button x:Name="filePicker" Content="Browse file" Margin="428,290,0,0" VerticalAlignment="Top" Click="ChooseFile"/>
+        <Button x:Name="CopyButton" IsEnabled="True" Content="Copy" Margin="250,164,0,0" VerticalAlignment="Top" Height="111" Width="141" RenderTransformOrigin="0.525,-0.164" Click="CopyButton_Click" />
+        <Button x:Name="DeleteButton" IsEnabled="True" Content="Delete" Margin="552,402,0,0" VerticalAlignment="Top" Height="111" Width="141" RenderTransformOrigin="0.525,-0.164" Click="DeleteButton_Click" />
+        <Button x:Name="RenameButton" IsEnabled="False" Content="Rename" Margin="250,408,0,0" VerticalAlignment="Top" Height="111" Width="141" RenderTransformOrigin="0.525,-0.164" Click="RenameButton_Click" />
+        <Button x:Name="MoveButton" IsEnabled="True" Content="Move" Margin="552,163,0,0" VerticalAlignment="Top" Height="111" Width="141" RenderTransformOrigin="0.525,-0.164" Click="MoveButton_Click" />
+        <TextBlock x:Name="MessageBox" HorizontalAlignment="Left" Margin="391,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="49" Width="223"/>
     </Grid>
 </Page>
