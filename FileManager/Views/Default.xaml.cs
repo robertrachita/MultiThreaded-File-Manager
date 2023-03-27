@@ -25,6 +25,30 @@ namespace FileManager.Views
         public Default()
         {
             this.InitializeComponent();
+            if (App.NotHavePermission)
+            {
+                TextBoxDefaultView.Text = "If you see this message, the application does not have sufficient permissions to run properly. In order to solve this, the Settings App has been launched. Please search for the 'FileManager' app, select 'Advanced Options' from the 3 dots menu  on the right, and tick the 'File system' slider under the 'App permissions' tab. The app will close itself soon, please restart it after granting the rights."; 
+            }
+            else
+            {
+                TextBoxDefaultView.Text = "Greetings,";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "The following features are available:";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "\u2022 File Searcher";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "\u2022File Comparison";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "\u2022 File Operations";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "\u2022 Folder Tree View";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "\u2022 Server Operations,";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "Please select the feature you'd like to use by navigating the Menu bar on the left side";
+                TextBoxDefaultView.Text += Environment.NewLine;
+                TextBoxDefaultView.Text += "Note that, due to the nature of UWP, this application cannot access root directories, other drives beside C:\\ and/or process any operations that requires admin access. Thank you for your understanding, and we hope that you will find our application useful!";
+            }
         }
     }
 }
