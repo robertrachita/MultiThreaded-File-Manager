@@ -32,7 +32,7 @@ namespace FileManager
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -43,7 +43,6 @@ namespace FileManager
             var clickedView = item.Tag?.ToString() ?? "SettingsView";
             if (!NavigateToView(clickedView)) return;
             _lastItem = item;
-            
         }
         
         private bool NavigateToView(String clickedView)
@@ -78,5 +77,6 @@ namespace FileManager
             if(ContentFrame.CanGoBack)
                 ContentFrame.GoBack();
         }
+
     }
 }
