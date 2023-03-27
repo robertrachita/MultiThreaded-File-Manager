@@ -17,25 +17,27 @@ using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace FileManager.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class CRUD : Page
     {
+        private StorageFile file;
+        private List<StorageFolder> folders;
+
         public CRUD()
         {
             this.InitializeComponent();
+            folders = new List<StorageFolder>();
         }
 
         private async void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile fileToCopy = await StorageFile.GetFileFromPathAsync(TextBoxFileName.Text);
-            StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync("C:\\test");
-            await CopyFileAsync(fileToCopy, destinationFolder);
+            StorageFile fileToCopy = await StorageFile.GetFileFromPathAsync(file.Path);
+
+            Parallel.ForEach(folders, async folder =>
+            {
+                await CopyFileAsync(fileToCopy, folder);
+            });
         }
 
         public async Task CopyFileAsync(StorageFile sourceFile, StorageFolder destinationFolder)
@@ -45,21 +47,24 @@ namespace FileManager.Views
             await sourceFile.CopyAndReplaceAsync(newFile);
         }
 
-        private void TextboxFileName_TextChanged(object sender, TextChangedEventArgs e)
+        private async void filePick(object sender, RoutedEventArgs e)
         {
-            if (TextBoxFileName.Text == "")
-            {
-                CopyButton.IsEnabled = false;
-            }
-            else
-            {
-                CopyButton.IsEnabled = true;
-            }
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add("*");
+            StorageFile fileUpload = await picker.PickSingleFileAsync();
+            this.file = fileUpload;
         }
 
-        private void TextboxDestFolderName_TextChanged(object sender, TextChangedEventArgs e)
+        private async void pickFolder(object sender, RoutedEventArgs e)
         {
-
+            var picker = new Windows.Storage.Pickers.FolderPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add("*");
+            StorageFolder folder = await picker.PickSingleFolderAsync();
+            this.folders.Add(folder);
         }
     }
 }
