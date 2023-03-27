@@ -4,7 +4,9 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  IgnorableNamespaces="uap mp rescap iot">
 
   <Identity
     Name="bc3c9d55-f19b-4ca3-8b73-359eac6fd9e6"
@@ -47,5 +49,12 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+	<rescap:Capability Name="broadFileSystemAccess" />
+    <Capability Name="internetClientServer"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap:Capability Name="removableStorage"/>
+    <iot:Capability Name="systemManagement"/>
+    <uap:Capability Name="musicLibrary"/>
   </Capabilities>
 </Package>
