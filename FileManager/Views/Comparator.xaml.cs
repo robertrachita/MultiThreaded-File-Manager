@@ -210,7 +210,7 @@ namespace FileManager.Views
                 using (var stream = File.OpenRead(path))
                 {
 
-                    byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(stream));
+                    byte[] bytes = sha256.ComputeHash(stream);
                     var sb = new StringBuilder();
                     for (int i = 0; i < bytes.Length; i++)
                     {
