@@ -78,5 +78,6 @@ namespace FileManager
             if(ContentFrame.CanGoBack)
                 ContentFrame.GoBack();
         }
+
     }
 }

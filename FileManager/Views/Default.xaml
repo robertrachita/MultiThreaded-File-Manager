@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="DefaultView">
 
     <Grid>
-        <TextBox x:Name="TextBoxDefaultView" HorizontalAlignment="Center" TextWrapping="Wrap" Text="This is the default page. " VerticalAlignment="Center" Height="124" Width="362" Background="#6600A202" FontSize="36"/>
+        <TextBox x:Name="TextBoxDefaultView" HorizontalAlignment="Center" TextWrapping="Wrap" Text="This is the default page. " VerticalAlignment="Center" Height="497" Width="798" Background="#6600A202" FontSize="36"/>
 
     </Grid>
 </Page>
