@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -42,13 +43,16 @@ namespace FileManager.Views
             }
         }
 
-        public List<StorageFile> Search(String searchTerm, String searchPath)
+        public async void StartSearch(String searchTerm, string searchPath)
         {
-            //var options = new QueryOptions(CommonFileQuery.DefaultQuery, new[] { searchTerm, ".exe"});
-            //List<String> searchExtensionFilter = new List<String>
-            //{
-            //    searchExtension
-            //};
+            var searchTask = Task.Run(() => Search(searchTerm, searchPath));
+            var result = await searchTask;
+
+            ChangeText(result);
+        }
+
+        private List<StorageFile> Search(String searchTerm, String searchPath)
+        {
             var searchFolder = StorageFolder.GetFolderFromPathAsync(searchPath).GetAwaiter().GetResult();
             var result = new List<StorageFile>();
 
@@ -70,7 +74,7 @@ namespace FileManager.Views
                 thread.Join();
             }
 
-            
+            //ChangeText(result);
             return result;
         }
 
@@ -82,7 +86,8 @@ namespace FileManager.Views
             }
             //SearchNameTextbox.Text = "'" + SearchNameTextbox.Text + "'";
             //Search(SearchNameTextbox.Text, SearchPathTextbox.Text);
-            Search("MainPage.xaml", "C:\\Users\\rober\\Desktop\\Work\\MultiThreaded-File-Manager\\FileManager");
+            StartSearch("Docker", "C:\\Users\\rober\\Desktop\\Work");
+            //StartSearch(SearchNameTextbox.Text, SearchPathTextbox.Text);
         }
 
         private static List<StorageFile> SearchFilesInFolder(StorageFolder folder, string searchTerm)
@@ -105,10 +110,16 @@ namespace FileManager.Views
             return result;
         }
 
-        private void changeText(String message)
+        private void ChangeText(List<StorageFile> message)
         {
             var textBlock = FindName("SeachFoundTextblock") as TextBlock;
-            textBlock.Text = message;
+            textBlock.Text = "Found " + message.Count.ToString() + " file(s)";
+            textBlock.Text += Environment.NewLine;
+            foreach (var file in message)
+            {
+                textBlock.Text += file.Path;
+                textBlock.Text += Environment.NewLine;
+            }
         }
 
         private void SeachFoundTextblock_SelectionChanged(object sender, RoutedEventArgs e)
