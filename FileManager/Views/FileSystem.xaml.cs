@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage.Search;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 
@@ -83,7 +72,6 @@ namespace FileManager.Views
         {
             ChangeTextLoading();
             SearchButton.IsEnabled = false;
-            //StartSearch("Docker", "C:\\Users\\rober\\Desktop\\Work");
             StartSearch(SearchNameTextbox.Text, SearchPathTextbox.Text);
         }
 
@@ -111,7 +99,6 @@ namespace FileManager.Views
             var textBlock = FindName("SeachFoundTextblock") as TextBlock;
 
             ScrollViewer scrollViewer = FindName("SearchScroll") as ScrollViewer;
-            //scrollViewer.Content = textBlock;
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             
             textBlock.Text = "Found " + message.Count.ToString() + " file(s)";
@@ -147,7 +134,6 @@ namespace FileManager.Views
 
             if (folder != null)
             {
-                // The user selected a folder, update the UI accordingly
                 SearchPathTextbox.Text = folder.Path;
             }
         }

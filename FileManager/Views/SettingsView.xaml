@@ -9,7 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="SettingsView">
 
     <Grid>
-        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Center"/>
-
+        <TextBlock x:Name="SettingsDescription" HorizontalAlignment="Left" Margin="579,156,0,0" TextWrapping="Wrap" Text="File Manager Application&#x0a;&#x0a;Threading in C# @ NHL Stenden&#x0a;&#x0a;Developers:&#x0a;&#x2022;Robert Rachita&#x0a;&#x2022;Mate Soos&#x0a;&#x2022;Christopher Sulistiyo&#x0a;&#x2022;Levente Stieber" VerticalAlignment="Top" FontSize="24" Width="359"/>
+        <TextBlock x:Name="SettingsLink" HorizontalAlignment="Left" Margin="579,500,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="24">         
+             <Hyperlink NavigateUri="https://github.com/robertrachita/MultiThreaded-File-Manager">Find the code on Github</Hyperlink>
+        </TextBlock>
     </Grid>
 </Page>
