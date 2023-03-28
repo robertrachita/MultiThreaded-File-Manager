@@ -83,13 +83,14 @@ namespace FileManager.Views
             textBlock.Text = message;
 
         }
-        //------------------------------------------------------------------------------------------------------
+
         private async void TreeButton_Click(object sender, RoutedEventArgs e)
         {
             ChangeTextLoading();
             TreeButton.IsEnabled = false;
             string treeView = await GenerateTreeView(TreeTextBox.Text);
-            ChangeText(treeView);
+            //ChangeText(treeView);
+            await WriteEffect(TreeGenerateTextblock, treeView);
 
         }
 
@@ -141,5 +142,20 @@ namespace FileManager.Views
             }
         }
 
+        private async Task WriteEffect(TextBlock textBlock, string text)
+        {
+            textBlock.Text = "";
+            var characters = text.ToCharArray();
+            var stringBuilder = new StringBuilder();
+            var delay = TimeSpan.FromSeconds(0.001);
+
+            foreach (var character in characters)
+            {
+                stringBuilder.Append(character);
+                textBlock.Text = stringBuilder.ToString();
+                await Task.Delay(delay);
+                TreeScroll.ChangeView(null, TreeScroll.ExtentHeight, null);
+            }
+        }
     }
 }
