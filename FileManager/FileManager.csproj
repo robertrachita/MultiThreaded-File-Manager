@@ -214,9 +214,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Chilkat.uwp">
-      <Version>9.5.0.86</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>

@@ -49,7 +49,6 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
-<<<<<<< HEAD
 	<rescap:Capability Name="broadFileSystemAccess" />
     <Capability Name="internetClientServer"/>
     <uap:Capability Name="picturesLibrary"/>
@@ -57,9 +56,6 @@
     <uap:Capability Name="removableStorage"/>
     <iot:Capability Name="systemManagement"/>
     <uap:Capability Name="musicLibrary"/>
-=======
     <Capability Name="internetClientServer"/>
-	 <rescap:Capability Name="broadFileSystemAccess" />
->>>>>>> 61f970b59d0beaa7d514374e1896a89e1206afdf
   </Capabilities>
 </Package>
