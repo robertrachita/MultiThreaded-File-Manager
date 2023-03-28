@@ -50,7 +50,6 @@
   <Capabilities>
     <Capability Name="internetClient" />
 	<rescap:Capability Name="broadFileSystemAccess" />
-    <Capability Name="internetClientServer"/>
     <uap:Capability Name="picturesLibrary"/>
     <Capability Name="privateNetworkClientServer"/>
     <uap:Capability Name="removableStorage"/>
