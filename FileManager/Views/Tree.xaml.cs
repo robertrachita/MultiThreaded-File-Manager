@@ -96,8 +96,6 @@ namespace FileManager.Views
         private async Task<string> GenerateTreeView(string folderPath)
         {
             StringBuilder sb = new StringBuilder();
-
-            // Get the root folder
             StorageFolder rootFolder = await StorageFolder.GetFolderFromPathAsync(folderPath);
 
             // Start a new thread to generate the tree view
@@ -108,16 +106,14 @@ namespace FileManager.Views
             });
             thread.Start();
 
-            // Wait for the thread to finish
             thread.Join();
 
-            // Return the result
             return sb.ToString();
         }
 
-        private void GenerateTreeViewHelper(StorageFolder folder, StringBuilder sb, string prefix = "")
+        private void GenerateTreeViewHelper(StorageFolder folder, StringBuilder sb, string prefix = "|-- ")
         {
-            // Get the files and subfolders in the folder
+            // get the files and subfolders in the folder
             IReadOnlyList<StorageFolder> subFolders = null;
             IReadOnlyList<StorageFile> files = null;
             try
@@ -131,17 +127,17 @@ namespace FileManager.Views
                 return;
             }
 
-            // Add the files to the tree view
+            // add the files to the tree view
             foreach (var file in files)
             {
                 sb.Append($"{prefix}{file.Name}\n");
             }
 
-            // Recursively add the subfolders to the tree view
+            // call this method recursively for each subfolder
             foreach (var subFolder in subFolders)
             {
                 sb.Append($"{prefix}{subFolder.Name}\n");
-                GenerateTreeViewHelper(subFolder, sb, prefix + "    ");
+                GenerateTreeViewHelper(subFolder, sb, prefix + "|---- ");
             }
         }
 
