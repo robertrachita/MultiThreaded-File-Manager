@@ -1,6 +1,7 @@
 ﻿<Page
     x:Class="FileManager.Views.Tree"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:pf="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FileManager.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +9,15 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="Tree">
 
-    <Grid>
-        <TextBox x:Name="TextBoxTree" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36" Text="tree" Background="{x:Null}"/>
-    </Grid>
+    <ScrollViewer x:Name="TreeScroll">
+        <Grid>
+            <TextBlock x:Name="TreeDescriptionText" HorizontalAlignment="Left" Margin="112,67,0,0" TextWrapping="Wrap" Text="Please select the folder you want to generate the view for." VerticalAlignment="Top" FontSize="24" Width="898"/>
+            <Button x:Name="TreeSelectFolder" Content="Select Path" Margin="112,255,0,0" VerticalAlignment="Top" Click="TreeSelectFolder_Click"/>
+            <TextBox x:Name="TreeTextBox" HorizontalAlignment="Left" Margin="112,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Width="882" PlaceholderText="path..." Text="" TextChanged="TextBoxTree_TextChanged"/>
+            <Button x:Name="TreeButton" IsEnabled="False" Content="Generate" Margin="112,329,0,0" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" VerticalAlignment="Top" Click="TreeButton_Click" />
+            <TextBlock x:Name="TreeGenerateTextblock" HorizontalAlignment="Left" Margin="112,460,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="30"/>
+            <pf:RadioButton x:Name="TreeRadioButtonDefault" IsChecked="True" Content="Default" Margin="303,255,0,0" VerticalAlignment="Top"/>
+            <pf:RadioButton x:Name="TreeRadioButtonFancy" Content="Animated" Margin="466,254,0,0" VerticalAlignment="Top"/>
+        </Grid>
+    </ScrollViewer>
 </Page>
