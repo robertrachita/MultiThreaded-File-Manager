@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -54,12 +57,6 @@ namespace FileManager.Views
             }
         }
 
-        private void TreeButton_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeTextLoading();
-            TreeButton.IsEnabled = false;
-        }
-
         private void UpdateGenerateButtonState()
         {
             if (!String.IsNullOrEmpty(TreeTextBox.Text))
@@ -80,11 +77,73 @@ namespace FileManager.Views
             textBlock.Text += "Note that changing to a different tab will cancel the search, but you can minimise the application";
         }
 
-        private void ChangeText(List<StorageFile> message)
+        private void ChangeText(String message)
         {
             var textBlock = FindName("TreeGenerateTextblock") as TextBlock;
-            textBlock.Text = "finished";
+            textBlock.Text = message;
 
         }
+        //------------------------------------------------------------------------------------------------------
+        private async void TreeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeTextLoading();
+            TreeButton.IsEnabled = false;
+            string treeView = await GenerateTreeView(TreeTextBox.Text);
+            ChangeText(treeView);
+
+        }
+
+        private async Task<string> GenerateTreeView(string folderPath)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Get the root folder
+            StorageFolder rootFolder = await StorageFolder.GetFolderFromPathAsync(folderPath);
+
+            // Start a new thread to generate the tree view
+            Thread thread = new Thread(() =>
+            {
+                sb.Append($"{rootFolder.Name}\n");
+                GenerateTreeViewHelper(rootFolder, sb);
+            });
+            thread.Start();
+
+            // Wait for the thread to finish
+            thread.Join();
+
+            // Return the result
+            return sb.ToString();
+        }
+
+        private void GenerateTreeViewHelper(StorageFolder folder, StringBuilder sb, string prefix = "")
+        {
+            // Get the files and subfolders in the folder
+            IReadOnlyList<StorageFolder> subFolders = null;
+            IReadOnlyList<StorageFile> files = null;
+            try
+            {
+                subFolders = folder.GetFoldersAsync().AsTask().Result;
+                files = folder.GetFilesAsync().AsTask().Result;
+            }
+            catch (Exception ex)
+            {
+                sb.Append($"{prefix}{folder.Name} [Access Denied]\n");
+                return;
+            }
+
+            // Add the files to the tree view
+            foreach (var file in files)
+            {
+                sb.Append($"{prefix}{file.Name}\n");
+            }
+
+            // Recursively add the subfolders to the tree view
+            foreach (var subFolder in subFolders)
+            {
+                sb.Append($"{prefix}{subFolder.Name}\n");
+                GenerateTreeViewHelper(subFolder, sb, prefix + "    ");
+            }
+        }
+
     }
 }
