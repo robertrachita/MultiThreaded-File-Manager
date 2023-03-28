@@ -89,9 +89,14 @@ namespace FileManager.Views
             ChangeTextLoading();
             TreeButton.IsEnabled = false;
             string treeView = await GenerateTreeView(TreeTextBox.Text);
-            //ChangeText(treeView);
-            await WriteEffect(TreeGenerateTextblock, treeView);
-
+            if (TreeRadioButtonDefault.IsChecked == true)
+            {
+                ChangeText(treeView);
+            }
+            else if (TreeRadioButtonFancy.IsChecked == true)
+            {
+                await WriteEffect(TreeGenerateTextblock, treeView);
+            }
         }
 
         private async Task<string> GenerateTreeView(string folderPath)
