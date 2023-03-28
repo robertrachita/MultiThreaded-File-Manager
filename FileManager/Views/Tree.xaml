@@ -15,7 +15,7 @@
             <TextBox x:Name="TreeTextBox" HorizontalAlignment="Left" Margin="112,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Width="882" PlaceholderText="path..." Text="" TextChanged="TextBoxTree_TextChanged"/>
             <Button x:Name="TreeButton" IsEnabled="False" Content="Generate" Margin="112,329,0,0" Height="61" Width="91" RenderTransformOrigin="0.525,-0.164" VerticalAlignment="Top" Click="TreeButton_Click" />
             <TextBlock x:Name="TreeGenerateTextblock" HorizontalAlignment="Left" Margin="112,460,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="30"/>
-            <TreeView Grid.Row="1" Margin="5" x:Name="TreeView" />
+
         </Grid>
     </ScrollViewer>
 </Page>
