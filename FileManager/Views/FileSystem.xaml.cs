@@ -20,10 +20,10 @@ namespace FileManager.Views
         {
             UpdateSearchButtonState();
         }
-        
+
         private void UpdateSearchButtonState()
         {
-            if(!String.IsNullOrEmpty(SearchNameTextbox.Text) && !String.IsNullOrEmpty(SearchPathTextbox.Text))
+            if (!String.IsNullOrEmpty(SearchNameTextbox.Text) && !String.IsNullOrEmpty(SearchPathTextbox.Text))
             {
                 SearchButton.IsEnabled = true;
             }
@@ -35,15 +35,27 @@ namespace FileManager.Views
 
         public async void StartSearch(String searchTerm, string searchPath)
         {
+
             var searchTask = Task.Run(() => Search(searchTerm, searchPath));
             var result = await searchTask;
 
             ChangeText(result);
+
+
         }
 
         private List<StorageFile> Search(String searchTerm, String searchPath)
         {
-            var searchFolder = StorageFolder.GetFolderFromPathAsync(searchPath).GetAwaiter().GetResult();
+            StorageFolder searchFolder;
+            try
+            {
+                searchFolder = StorageFolder.GetFolderFromPathAsync(searchPath).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Invalid path");
+            }
+
             var result = new List<StorageFile>();
 
             var threadList = new List<Thread>();
@@ -100,7 +112,7 @@ namespace FileManager.Views
 
             ScrollViewer scrollViewer = FindName("SearchScroll") as ScrollViewer;
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            
+
             textBlock.Text = "Found " + message.Count.ToString() + " file(s)";
             textBlock.Text += Environment.NewLine;
             foreach (var file in message)
