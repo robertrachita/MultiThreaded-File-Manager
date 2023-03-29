@@ -58,6 +58,10 @@ namespace FileManager.Views
 
             var result = new List<StorageFile>();
 
+            // Add files in the root folder first
+            result.AddRange(SearchFilesInFolder(searchFolder, searchTerm)); 
+
+
             var threadList = new List<Thread>();
             foreach (var folder in searchFolder.GetFoldersAsync().GetAwaiter().GetResult())
             {
