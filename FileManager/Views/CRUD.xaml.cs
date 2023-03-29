@@ -99,9 +99,16 @@ namespace FileManager.Views
                     {
                         tasks.Add(CopyFileAsync(file, folderPick));
                     }
-                    await Task.WhenAll(tasks);
+                    try
+                    {
+                        await Task.WhenAll(tasks);
+                        MessageBox.Text = "File(s) successfully moved";
+                    }
+                    catch(Exception ex) 
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     this.filesPick.Clear();
-                    MessageBox.Text = "File(s) successfully moved";
                 }
                 else
                 {
@@ -123,9 +130,17 @@ namespace FileManager.Views
                 {
                     tasks.Add(DeleteFilesAsync(file));
                 }
-                await Task.WhenAll(tasks);
+                try
+                {
+                    await Task.WhenAll(tasks);
+                    MessageBox.Text = "File(s) successfully deleted";
+                }
+                catch (Exception ex) 
+                {
+                    Debug.WriteLine(ex.Message);
+                }
                 this.filesPick.Clear();
-                MessageBox.Text = "File(s) successfully deleted";
+
             }
             else
             {
@@ -142,9 +157,16 @@ namespace FileManager.Views
                 {
                     tasks.Add(RenameFilesAsync(file));
                 }
-                await Task.WhenAll(tasks);
+                try
+                {
+                    await Task.WhenAll(tasks);
+                    MessageBox.Text = "File(s) successfully renamed";
+                }
+                catch (Exception ex)
+                { 
+                    Debug.WriteLine(ex.Message); 
+                }
                 this.filesPick.Clear();
-                MessageBox.Text = "File(s) successfully renamed";
             }
             else
             {
@@ -163,7 +185,14 @@ namespace FileManager.Views
                     {
                         tasks.Add(MoveFileAsync(file, folderPick));
                     }
-                    await Task.WhenAll(tasks);
+                    try
+                    {
+                        await Task.WhenAll(tasks);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     this.filesPick.Clear();
                     MessageBox.Text = "File(s) successfully moved";
                 }
@@ -197,9 +226,16 @@ namespace FileManager.Views
 
         private async Task RenameFilesAsync(StorageFile fileToRename)
         {
-            string fileExtension = Path.GetExtension(fileToRename.Name);
-            string newName = string.Concat(RenameTextbox.Text, fileExtension);
-            await fileToRename.RenameAsync(newName);
+            try
+            {
+                string fileExtension = Path.GetExtension(fileToRename.Name);
+                string newName = string.Concat(RenameTextbox.Text, fileExtension);
+                await fileToRename.RenameAsync(newName);
+            } 
+            catch (Exception ex) 
+            { 
+                Debug.WriteLine(ex.Message); 
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
