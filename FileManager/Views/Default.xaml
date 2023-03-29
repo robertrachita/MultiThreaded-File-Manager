@@ -10,7 +10,7 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid>
-            <TextBox x:Name="TextBoxDefaultView" IsReadOnly="True" HorizontalAlignment="Center" TextWrapping="Wrap" Text="This is the default page. " VerticalAlignment="Center" Height="400" Width="1000" FontSize="24" TextAlignment="Center"/>
+            <TextBox x:Name="TextBoxDefaultView" IsReadOnly="True" AllowFocusOnInteraction="False" BorderThickness="0" HorizontalAlignment="Center" TextWrapping="Wrap" Text="This is the default page. " VerticalAlignment="Center" Height="400" Width="1000" FontSize="24" TextAlignment="Center"/>
         </Grid>
     </ScrollViewer>
 </Page>
