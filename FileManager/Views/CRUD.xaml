@@ -9,7 +9,90 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="CRUD">
 
     <Grid RenderTransformOrigin="0.539,0.531">
-        <TextBox x:Name="TextBoxCrud" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="77" Width="341" FontSize="36"  Text="crud" Background="{x:Null}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="450" />
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="filePicker" 
+            IsEnabled="False" 
+            Content="Browse file" 
+            Margin="0,172,0,0" 
+            VerticalAlignment="Top" 
+            Height="40" 
+            Width="170" 
+            Click="ChooseFile" 
+            HorizontalAlignment="Center"/>
 
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name ="folderPicker" 
+            IsEnabled="False" 
+            Content="Destination folder" 
+            Margin="0,217,0,0" 
+            VerticalAlignment="Top" 
+            Height="40" 
+            Width="170" 
+            Click="ChooseFolder" 
+            HorizontalAlignment="Center"/>
+
+        <ComboBox 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="OperationDropDown" 
+            Width="120" 
+            SelectionChanged="ComboBox_SelectionChanged" 
+            HorizontalAlignment="Center" 
+            Margin="0,119,0,0"/>
+
+        <Button 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="ExecuteButton" 
+            IsEnabled="False" 
+            Content="Execute" 
+            Margin="0,318,0,0" 
+            VerticalAlignment="Top" 
+            Height="51" 
+            Width="93" 
+            RenderTransformOrigin="0.525,-0.164" 
+            Click="ExecuteButton_Click" HorizontalAlignment="Center" />
+
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="RenameTextbox" 
+            IsEnabled="False" 
+            HorizontalAlignment="Center" 
+            Margin="0,262,0,0" 
+            TextWrapping="Wrap" 
+            Height="40" 
+            Width="170" 
+            PlaceholderText="Rename file(s) to:" 
+            Text="" 
+            VerticalAlignment="Top" 
+            FontSize="18" 
+            TextChanged="RenameTextbox_TextChanged"/>
+
+        <TextBlock 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="MessageBox" 
+            HorizontalAlignment="Center" 
+            TextWrapping="Wrap" 
+            Text="" 
+            VerticalAlignment="Top" 
+            Height="64" 
+            Width="237" 
+            Margin="0,30,0,0"/>
     </Grid>
 </Page>
