@@ -9,11 +9,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tag="Comparator">
 
     <Grid>
-        <TextBox x:Name="TextBoxCompare" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="341" FontSize="36"  Text="compare files here" Background="{x:Null}" Margin="547,283,0,0"/>
-        <Button Content="Upload file 1" Margin="477,434,0,0" VerticalAlignment="Top" Click="upload_file1"/>
-        <Button Content="Upload file 2" Margin="840,429,0,0" VerticalAlignment="Top" Click="upload_file2"/>
-        <Button Content="Compare" Margin="688,684,0,0" VerticalAlignment="Top" Click="compare_files"/>
-        <Button Content="Compare with single thread" Margin="429,717,0,0" VerticalAlignment="Top" Click="Single_Thread_Compare"/>
+        <TextBox x:Name="TextBoxCompare" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="341" FontSize="36"  Text="compare files here" Background="{x:Null}" Margin="432,148,0,0"/>
+        <Button Content="Upload file 1" Margin="329,288,0,0" VerticalAlignment="Top" Click="upload_file1"/>
+        <Button Content="Upload file 2" Margin="784,288,0,0" VerticalAlignment="Top" Click="upload_file2"/>
+        <Button Content="Compare" Margin="564,368,0,0" VerticalAlignment="Top" Click="compare_files"/>
+        <Button Content="Compare with single thread" Margin="506,478,0,0" VerticalAlignment="Top" Click="Single_Thread_Compare"/>
 
     </Grid>
 </Page>

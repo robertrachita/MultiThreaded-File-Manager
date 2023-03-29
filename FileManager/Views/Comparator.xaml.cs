@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +20,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
+using System.Diagnostics;
+using System.Timers;
 
 namespace FileManager.Views
 {
@@ -36,19 +39,33 @@ namespace FileManager.Views
 
         private async void filePick(int i)
         {
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add("*");
-            StorageFile file = await picker.PickSingleFileAsync();
-            if (i == 1)
+            try
             {
-                this.file1 = file;
-            }
-            else
+                var picker = new Windows.Storage.Pickers.FileOpenPicker();
+                picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+                picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+                picker.FileTypeFilter.Add("*");
+                StorageFile file = await picker.PickSingleFileAsync();
+                if (i == 1)
+                {
+                    this.file1 = file;
+                }
+                else
+                {
+                    this.file2 = file;
+                }
+                dialogCommmand();
+            } 
+            catch(Exception ex)
             {
-                this.file2 = file;
+                MessageDialog dialog = new MessageDialog("An error occured" + ex.Message, "Exception");
+                await dialog.ShowAsync();
             }
+        }
+
+        private async void dialogCommmand()
+        {
+            await new MessageDialog("Your file is uploaded", "Information").ShowAsync();
         }
 
         private async void generateByte(StorageFile file)
@@ -100,6 +117,7 @@ namespace FileManager.Views
             }
             this.filePick(1);
         }
+
         private void upload_file2(object sender, RoutedEventArgs e)
         {
             if (this.file2 != null)
@@ -109,33 +127,47 @@ namespace FileManager.Views
             this.filePick(2);
         }
 
-        private void compare_files(object sender, RoutedEventArgs e)
+        private async void compare_files(object sender, RoutedEventArgs e)
         {
-            if (this.file1 == null || this.file2 == null)
+            try
             {
-                return;
+                if (this.file1 == null || this.file2 == null)
+                {
+                    return;
+                }
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+                TextBoxCompare.Text = "";
+
+                Thread t1 = new Thread(() => this.generateByte(this.file1));
+                Thread t2 = new Thread(() => this.generateByte(this.file2));
+
+                t1.Start();
+                t2.Start();
+
+                t1.Join();
+                t2.Join();
+
+                Thread.Sleep(800);
+                if (compare(byte1, byte2))
+                {
+                    TextBoxCompare.Text = "Files are the same";
+                }
+                else
+                {
+                    TextBoxCompare.Text = "Files are not the same";
+                }
+                timer.Stop();
+                TimeSpan timeSpan = timer.Elapsed;
+                string timeTaken = "Time taken: " + timeSpan.ToString(@"m\:ss\.fff");
+                MessageDialog dialog = new MessageDialog(timeTaken, "Information");
+                await dialog.ShowAsync();
             }
-            TextBoxCompare.Text = "";
-
-            Thread t1 = new Thread(() => this.generateByte(this.file1));
-            Thread t2 = new Thread(() => this.generateByte(this.file2));
-
-            t1.Start();
-            t2.Start();
-
-            t1.Join();
-            t2.Join();
-
-            Thread.Sleep(1000);
-            if (compare(byte1, byte2))
+            catch(Exception ex)
             {
-                TextBoxCompare.Text = "Files are the same";
+                MessageDialog dialog = new MessageDialog("An error occured" + ex.Message, "Exception");
+                await dialog.ShowAsync();
             }
-            else
-            {
-                TextBoxCompare.Text = "Files are not the same";
-            }
-            //this.generateHash(this.file1);
         }
 
         private bool compare(byte[] array1, byte[] array2)
@@ -152,24 +184,46 @@ namespace FileManager.Views
             }
             return true;
         }
-        private void Single_Thread_Compare(object sender, RoutedEventArgs e)
+        private async void Single_Thread_Compare(object sender, RoutedEventArgs e)
         {
-            if (this.file1 == null || this.file2 == null)
+            try
             {
-                return;
-            }
+                System.IO.FileStream fs = new System.IO.FileStream(file1.Path, System.IO.FileMode.Open, System.IO.FileAccess.Read, FileShare.ReadWrite);
+                if (file1 == null || file2 == null)
+                {
+                    return;
+                }
 
-            TextBoxCompare.Text = "";
-            generateByte(this.file1);
-            generateByte(this.file2);
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();;
+                TextBoxCompare.Text = "";
+                
+                
+                    /*
+                                    if (compare(byte1, byte2))
+                                    {
+                                        TextBoxCompare.Text = "Files are the same";
+                                    }
+                                    else
+                                    {
+                                        TextBoxCompare.Text = "Files are not the same";
+                                    }*/
+                stopwatch.Stop();
+                TimeSpan ts = stopwatch.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+/*                foreach (var el in yes)
+                {
+                    TextBoxCompare.Text += el.ToString();
+                }*/
 
-            if (compare(byte1, byte2))
-            {
-                TextBoxCompare.Text = "Files are the same";
+                // The method is async because of this
+                MessageDialog dialog = new MessageDialog(elapsedTime, "Information");
+                await dialog.ShowAsync();
             }
-            else
+            catch(Exception ex)
             {
-                TextBoxCompare.Text = "Files are not the same";
+                MessageDialog dialog = new MessageDialog("An error occured: " + ex.Message, "Exception");
+                await dialog.ShowAsync();
             }
         }
         private string generateHash(string path)
