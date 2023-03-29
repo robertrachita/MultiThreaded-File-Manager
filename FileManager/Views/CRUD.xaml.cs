@@ -29,6 +29,42 @@ namespace FileManager.Views
         {
             this.InitializeComponent();
             filesPick = new HashSet<StorageFile>();
+            OperationDropDown.Items.Add("Rename");
+            OperationDropDown.Items.Add("Delete");
+            OperationDropDown.Items.Add("Copy");
+            OperationDropDown.Items.Add("Move");
+
+        }
+
+        private void ExecuteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (OperationDropDown.SelectedItem == null)
+            {
+                Trace.WriteLine("null zsamo");
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Rename")
+            {
+                if (RenameTextbox.Text != "")
+                {
+                    RenameExecute(sender, e);
+                }
+                else
+                {
+                    MessageBox.Text = "You have to give a name to rename the file";
+                }
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Delete")
+            {
+                DeleteExecute(sender, e);
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Copy")
+            {
+                CopyExecute(sender, e);
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Move")
+            {
+                MoveExecute(sender, e);
+            }
         }
 
         private async void ChooseFile(object sender, RoutedEventArgs e)
@@ -52,7 +88,7 @@ namespace FileManager.Views
             MessageBox.Text = "Folder successfully chosen";
         }
 
-        private async void CopyButton_Click(object sender, RoutedEventArgs e)
+        private async void CopyExecute(object sender, RoutedEventArgs e)
         {
             if (this.filesPick.Count > 0)
             {
@@ -78,7 +114,7 @@ namespace FileManager.Views
             }
         }
 
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteExecute(object sender, RoutedEventArgs e)
         {
             if (this.filesPick.Count > 0)
             {
@@ -97,7 +133,7 @@ namespace FileManager.Views
             }
         }
 
-        private async void RenameButton_Click(object sender, RoutedEventArgs e)
+        private async void RenameExecute(object sender, RoutedEventArgs e)
         {
             if (this.filesPick.Count > 0)
             {
@@ -116,7 +152,7 @@ namespace FileManager.Views
             }
         }
 
-        private async void MoveButton_Click(object sender, RoutedEventArgs e)
+        private async void MoveExecute(object sender, RoutedEventArgs e)
         {
             if (this.filesPick.Count > 0)
             {
@@ -166,16 +202,48 @@ namespace FileManager.Views
             await fileToRename.RenameAsync(newName);
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OperationDropDown.SelectedItem == null)
+            {
+                filePicker.IsEnabled = false;
+                RenameTextbox.IsEnabled = false;
+                ExecuteButton.IsEnabled = false;
+                folderPicker.IsEnabled = false;
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Rename")
+            {
+                filePicker.IsEnabled = true;
+                RenameTextbox.IsEnabled = true;
+                ExecuteButton.IsEnabled = true;
+                folderPicker.IsEnabled = false;
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Delete")
+            {
+                filePicker.IsEnabled = true;
+                RenameTextbox.IsEnabled = false;
+                ExecuteButton.IsEnabled = true;
+                folderPicker.IsEnabled = false;
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Copy")
+            {
+                filePicker.IsEnabled = true;
+                RenameTextbox.IsEnabled = false;
+                ExecuteButton.IsEnabled = true;
+                folderPicker.IsEnabled = true;
+            }
+            else if (OperationDropDown.SelectedItem.ToString() == "Move")
+            {
+                filePicker.IsEnabled = true;
+                RenameTextbox.IsEnabled = false;
+                ExecuteButton.IsEnabled = true;
+                folderPicker.IsEnabled = true;
+            }
+        }
+
         private void RenameTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(RenameTextbox.Text) && !String.IsNullOrEmpty(RenameTextbox.Text))
-            {
-                RenameButton.IsEnabled = true;
-            }
-            else
-            {
-                RenameButton.IsEnabled = false;
-            }
+
         }
     }
 }
