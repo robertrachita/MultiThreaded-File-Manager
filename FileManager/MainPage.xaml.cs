@@ -15,13 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace FileManager
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         private NavigationViewItem _lastItem;
@@ -32,7 +27,7 @@ namespace FileManager
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -43,7 +38,6 @@ namespace FileManager
             var clickedView = item.Tag?.ToString() ?? "SettingsView";
             if (!NavigateToView(clickedView)) return;
             _lastItem = item;
-            
         }
         
         private bool NavigateToView(String clickedView)

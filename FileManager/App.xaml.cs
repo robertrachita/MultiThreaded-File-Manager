@@ -92,23 +92,12 @@ namespace FileManager
                 
                 await Task.Delay(30000);
 
-
                 throw new Exception("Not able to access C drive. Please grant access to C drive and restart the application.");
                 //Application.Current.Exit();
 
             }
         }
-
-        //public static bool HasCapacity()
-        //{
-        //    if (this.success)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
         
-
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
