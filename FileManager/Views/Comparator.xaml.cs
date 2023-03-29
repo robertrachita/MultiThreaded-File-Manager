@@ -55,8 +55,8 @@ namespace FileManager.Views
                     this.file2 = file;
                 }
                 dialogCommmand();
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageDialog dialog = new MessageDialog("An error occured" + ex.Message, "Exception");
                 await dialog.ShowAsync();
@@ -83,13 +83,16 @@ namespace FileManager.Views
                     while ((bytesread = await fileStr.ReadAsync(buffer, 0, BUFFER_SIZE)) > 0)
                         for (int i = 0; i < bytesread; i++, position++)
                             bytes[position] = buffer[i];
+
                     if (file.Equals(file1))
                     {
+                        Array.Clear(byte1, 0, byte1.Length);
                         byte1 = new byte[bytes.Length];
                         Array.Copy(bytes, byte1, bytes.Length);
                     }
                     else
                     {
+                        Array.Clear(byte2, 0, byte2.Length);
                         byte2 = new byte[bytes.Length];
                         Array.Copy(bytes, byte2, bytes.Length);
                     }
@@ -97,14 +100,15 @@ namespace FileManager.Views
             }
         }
 
-        private async void generate_byte2(StorageFile file)
+        private async void generate_byte2(StorageFile file, byte[] array)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
                 using (Stream fileStr = await file.OpenStreamForReadAsync())
                 {
                     await fileStr.CopyToAsync(memStream);
-                    byte1 = memStream.ToArray();
+                    array = new byte[memStream.Length];
+                    array = memStream.ToArray();
                 }
             }
         }
@@ -163,7 +167,7 @@ namespace FileManager.Views
                 MessageDialog dialog = new MessageDialog(timeTaken, "Information");
                 await dialog.ShowAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageDialog dialog = new MessageDialog("An error occured" + ex.Message, "Exception");
                 await dialog.ShowAsync();
@@ -172,6 +176,9 @@ namespace FileManager.Views
 
         private bool compare(byte[] array1, byte[] array2)
         {
+            if (array1 == null || array2 == null) 
+                return false;
+
             if (array1.Length != array2.Length)
                 return false;
 
@@ -188,39 +195,55 @@ namespace FileManager.Views
         {
             try
             {
-                System.IO.FileStream fs = new System.IO.FileStream(file1.Path, System.IO.FileMode.Open, System.IO.FileAccess.Read, FileShare.ReadWrite);
-                if (file1 == null || file2 == null)
+                if (this.file1 == null || this.file2 == null)
                 {
                     return;
                 }
 
                 Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();;
+                stopwatch.Start(); 
                 TextBoxCompare.Text = "";
-                
-                
-                    /*
-                                    if (compare(byte1, byte2))
-                                    {
-                                        TextBoxCompare.Text = "Files are the same";
-                                    }
-                                    else
-                                    {
-                                        TextBoxCompare.Text = "Files are not the same";
-                                    }*/
-                stopwatch.Stop();
+
+
+                byte[] fileContent1;
+                byte[] fileContent2;
+
+                using (MemoryStream memStream = new MemoryStream())
+                {
+                    using (Stream fs = await file1.OpenStreamForReadAsync())
+                    {
+                        await fs.CopyToAsync(memStream);
+                        fileContent1 = new byte[memStream.Length];
+                        fileContent1 = memStream.ToArray();
+                    }
+
+                    using (Stream fs = await file2.OpenStreamForReadAsync())
+                    {
+                        memStream.SetLength(0);
+                        await fs.CopyToAsync(memStream);
+                        fileContent2 = new byte[memStream.Length];
+                        fileContent2 = memStream.ToArray();
+                    }
+
+                    if (compare(fileContent1, fileContent2))
+                    {
+                        TextBoxCompare.Text = "Files are the same";
+                    }
+                    else
+                    {
+                        TextBoxCompare.Text = "Files are not the same";
+                    }
+                }
+
+                    stopwatch.Stop();
                 TimeSpan ts = stopwatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-/*                foreach (var el in yes)
-                {
-                    TextBoxCompare.Text += el.ToString();
-                }*/
 
-                // The method is async because of this
+
                 MessageDialog dialog = new MessageDialog(elapsedTime, "Information");
                 await dialog.ShowAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageDialog dialog = new MessageDialog("An error occured: " + ex.Message, "Exception");
                 await dialog.ShowAsync();
