@@ -59,7 +59,12 @@ namespace FileManager.Views
             var result = new List<StorageFile>();
 
             // Add files in the root folder first
-            result.AddRange(SearchFilesInFolder(searchFolder, searchTerm)); 
+            result.AddRange(SearchFilesInFolder(searchFolder, searchTerm));
+
+            if (result.Count >= 1)
+            {
+                return result;
+            }
 
 
             var threadList = new List<Thread>();
