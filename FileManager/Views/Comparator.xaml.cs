@@ -54,6 +54,11 @@ namespace FileManager.Views
                 {
                     this.file2 = file;
                 }
+                if (i == 1 && this.file1 == null || i == 2 && this.file2 == null)
+                {
+                    await new MessageDialog("File is not uploaded", "Information").ShowAsync();
+                    return;
+                }
                 dialogCommmand();
             }
             catch (Exception ex)
@@ -123,6 +128,41 @@ namespace FileManager.Views
             }
         }
 
+        private async void generate_byte3(StorageFile file)
+        {
+            try
+            {
+                if (file != null)
+                {
+                    using (Stream fileStr = await file.OpenStreamForReadAsync())
+                    {
+                        var binary = new BinaryReader(fileStr);
+
+
+                        if (file.Equals(file1))
+                        {
+                            if (byte1 != null)
+                                Array.Clear(byte1, 0, byte1.Length);
+                            byte1 = new byte[fileStr.Length];
+                            byte1 = binary.ReadBytes((int)fileStr.Length);
+                        }
+                        else
+                        {
+                            if (byte2 != null)
+                                Array.Clear(byte2, 0, byte2.Length);
+                            byte2 = new byte[fileStr.Length];
+                            byte2 = binary.ReadBytes((int)byte2.Length);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageDialog dialog = new MessageDialog("An error occured: " + ex.Message, "Exception");
+                await dialog.ShowAsync();
+            }
+        }
+
         private void upload_file1(object sender, RoutedEventArgs e)
         {
             if (this.file1 != null)
@@ -153,8 +193,8 @@ namespace FileManager.Views
                 timer.Start();
                 TextBoxCompare.Text = "";
 
-                Thread t1 = new Thread(() => this.generateByte(this.file1));
-                Thread t2 = new Thread(() => this.generateByte(this.file2));
+                Thread t1 = new Thread(() => this.generate_byte3(this.file1));
+                Thread t2 = new Thread(() => this.generate_byte3(this.file2));
 
                 t1.Start();
                 t2.Start();
@@ -186,7 +226,7 @@ namespace FileManager.Views
 
         private bool compare(byte[] array1, byte[] array2)
         {
-            if (array1 == null || array2 == null) 
+            if (array1 == null || array2 == null)
                 return false;
 
             if (array1.Length != array2.Length)
@@ -205,47 +245,29 @@ namespace FileManager.Views
         {
             try
             {
+
                 if (this.file1 == null || this.file2 == null)
                 {
                     return;
                 }
 
                 Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start(); 
+                stopwatch.Start();
                 TextBoxCompare.Text = "";
 
+                this.generate_byte3(file1);
+                this.generate_byte3(file2);
 
-                byte[] fileContent1;
-                byte[] fileContent2;
-
-                using (MemoryStream memStream = new MemoryStream())
+                if (compare(byte1, byte2))
                 {
-                    using (Stream fs = await file1.OpenStreamForReadAsync())
-                    {
-                        await fs.CopyToAsync(memStream);
-                        fileContent1 = new byte[memStream.Length];
-                        fileContent1 = memStream.ToArray();
-                    }
-
-                    using (Stream fs = await file2.OpenStreamForReadAsync())
-                    {
-                        memStream.SetLength(0);
-                        await fs.CopyToAsync(memStream);
-                        fileContent2 = new byte[memStream.Length];
-                        fileContent2 = memStream.ToArray();
-                    }
-
-                    if (compare(fileContent1, fileContent2))
-                    {
-                        TextBoxCompare.Text = "Files are the same";
-                    }
-                    else
-                    {
-                        TextBoxCompare.Text = "Files are not the same";
-                    }
+                    TextBoxCompare.Text = "Files are the same";
+                }
+                else
+                {
+                    TextBoxCompare.Text = "Files are not the same";
                 }
 
-                    stopwatch.Stop();
+                stopwatch.Stop();
                 TimeSpan ts = stopwatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
