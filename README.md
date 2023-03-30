@@ -13,7 +13,7 @@ Once the app has been launched, the user can select the desired functionality fr
 
 - File Searcher: Input the name of the file(s) to be searched for in the first input text box, and either use the following button to open a Windows Explorer dialog box, or manually input the path in the next input text box. Note that both boxes need to be filled in for the Search button to unlock
 - CRUD operations:Move, Rename, Copy and Delete one or multiple files at the same time, lighnint fast with the power of threads. Select the desired operations using the dropdown menu, then select the file and finally the desired output path.
-- File Comparison: Select 2 files using the on-screen buttons (successfull file upload will trigger a popup), then compare these files. The app supports both single threaded and multi threaded comparisons and timers.
+- File Comparison: Select 2 files using the on-screen buttons (successfull file upload will trigger a popup), then compare these files. The app supports both single threaded and multi threaded comparisons and timers. Small files are recommended, maximum size is 2GB.
 - Tree Generator: Scans the provided path in the input text box and generates a tree view. User can select between seeing the tree at once, or having a nice typewriter-like animation
 -SFTP Server Control: Allows the user to transfer multiple files between a server and the computer at once. See the next section for more information on how to use this feature. 
 
