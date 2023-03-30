@@ -1,0 +1,6 @@
+MainPackage=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\bin\ARM\Release\FileManager_1.0.0.0_ARM.msix
+SymbolPackage=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\obj\ARM\Release\Symbols\FileManager_1.0.0.0_ARM.appxsym
+ResourcePack=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\bin\ARM\Release\FileManager_1.0.0.0_scale-100.msix
+ResourcePack=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\bin\ARM\Release\FileManager_1.0.0.0_scale-125.msix
+ResourcePack=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\bin\ARM\Release\FileManager_1.0.0.0_scale-150.msix
+ResourcePack=C:\Users\rober\Desktop\Work\MultiThreaded-File-Manager\FileManager\bin\ARM\Release\FileManager_1.0.0.0_scale-400.msix
