@@ -47,7 +47,7 @@ namespace FileManager.Views
                 TextBoxDefaultView.Text += Environment.NewLine;
                 TextBoxDefaultView.Text += "Please select the feature you'd like to use by navigating the Menu bar on the left side";
                 TextBoxDefaultView.Text += Environment.NewLine;
-                TextBoxDefaultView.Text += "Note that, due to the nature of UWP, this application cannot access root directories, other drives beside C:\\ and/or process any operations that requires admin access. Thank you for your understanding, and we hope that you will find our application useful!";
+                TextBoxDefaultView.Text += "Note that, due to the nature of UWP, this application cannot access drive root directories, may have troubles accessing other drives beside C:\\ and/or process any operations that requires admin access. Thank you for your understanding, and we hope that you will find our application useful!";
             }
         }
     }
