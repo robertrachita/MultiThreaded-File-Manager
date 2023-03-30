@@ -138,7 +138,6 @@ namespace FileManager.Views
                     {
                         var binary = new BinaryReader(fileStr);
 
-
                         if (file.Equals(file1))
                         {
                             if (byte1 != null)
@@ -160,6 +159,32 @@ namespace FileManager.Views
             {
                 MessageDialog dialog = new MessageDialog("An error occured: " + ex.Message, "Exception");
                 await dialog.ShowAsync();
+            }
+        }
+
+        private async void generate_byte4(StorageFile file)
+        {
+            if (file != null)
+            {
+                using (Stream fileStr = await file.OpenStreamForReadAsync())
+                {
+                    var binary = new BinaryReader(fileStr);
+
+                    if (file.Equals(file1))
+                    {
+                        if (byte1 != null)
+                            Array.Clear(byte1, 0, byte1.Length);
+                        byte1 = new byte[fileStr.Length];
+                        byte1 = binary.ReadBytes((int)fileStr.Length);
+                    }
+                    else
+                    {
+                        if (byte2 != null)
+                            Array.Clear(byte2, 0, byte2.Length);
+                        byte2 = new byte[fileStr.Length];
+                        byte2 = binary.ReadBytes((int)byte2.Length);
+                    }
+                }
             }
         }
 
@@ -187,14 +212,15 @@ namespace FileManager.Views
             {
                 if (this.file1 == null || this.file2 == null)
                 {
+                    await new MessageDialog("Files are not uploaded correctly", "Information").ShowAsync();
                     return;
                 }
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 TextBoxCompare.Text = "";
 
-                Thread t1 = new Thread(() => this.generate_byte3(this.file1));
-                Thread t2 = new Thread(() => this.generate_byte3(this.file2));
+                Thread t1 = new Thread(() => this.generate_byte4(this.file1));
+                Thread t2 = new Thread(() => this.generate_byte4(this.file2));
 
                 t1.Start();
                 t2.Start();
@@ -248,6 +274,7 @@ namespace FileManager.Views
 
                 if (this.file1 == null || this.file2 == null)
                 {
+                    await new MessageDialog("Files are not uploaded correctly", "Information").ShowAsync();
                     return;
                 }
 
