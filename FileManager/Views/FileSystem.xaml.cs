@@ -85,7 +85,6 @@ namespace FileManager.Views
                 thread.Join();
             }
 
-            //ChangeText(result);
             return result;
         }
 
