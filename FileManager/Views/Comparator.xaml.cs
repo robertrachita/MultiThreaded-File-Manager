@@ -70,33 +70,43 @@ namespace FileManager.Views
 
         private async void generateByte(StorageFile file)
         {
-            if (file != null)
+            try
             {
-                using (Stream fileStr = await file.OpenStreamForReadAsync())
+                if (file != null)
                 {
-                    byte[] bytes = new byte[fileStr.Length];
-
-                    const int BUFFER_SIZE = 1024;
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    int position = 0;
-                    int bytesread = 0;
-                    while ((bytesread = await fileStr.ReadAsync(buffer, 0, BUFFER_SIZE)) > 0)
-                        for (int i = 0; i < bytesread; i++, position++)
-                            bytes[position] = buffer[i];
-
-                    if (file.Equals(file1))
+                    using (Stream fileStr = await file.OpenStreamForReadAsync())
                     {
-                        Array.Clear(byte1, 0, byte1.Length);
-                        byte1 = new byte[bytes.Length];
-                        Array.Copy(bytes, byte1, bytes.Length);
-                    }
-                    else
-                    {
-                        Array.Clear(byte2, 0, byte2.Length);
-                        byte2 = new byte[bytes.Length];
-                        Array.Copy(bytes, byte2, bytes.Length);
+                        byte[] bytes = new byte[fileStr.Length];
+
+                        const int BUFFER_SIZE = 1024;
+                        byte[] buffer = new byte[BUFFER_SIZE];
+                        int position = 0;
+                        int bytesread = 0;
+                        while ((bytesread = await fileStr.ReadAsync(buffer, 0, BUFFER_SIZE)) > 0)
+                            for (int i = 0; i < bytesread; i++, position++)
+                                bytes[position] = buffer[i];
+
+                        if (file.Equals(file1))
+                        {
+                            if (byte1 != null)
+                                Array.Clear(byte1, 0, byte1.Length);
+                            byte1 = new byte[bytes.Length];
+                            Array.Copy(bytes, byte1, bytes.Length);
+                        }
+                        else
+                        {
+                            if (byte2 != null)
+                                Array.Clear(byte2, 0, byte2.Length);
+                            byte2 = new byte[bytes.Length];
+                            Array.Copy(bytes, byte2, bytes.Length);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageDialog dialog = new MessageDialog("An error occured" + ex.Message, "Exception");
+                await dialog.ShowAsync();
             }
         }
 
