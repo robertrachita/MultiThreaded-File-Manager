@@ -10,14 +10,14 @@
 
 	<Identity
     Name="bc3c9d55-f19b-4ca3-8b73-359eac6fd9e6"
-    Publisher="CN=rober"
+    Publisher="CN=File Manager, O=&quot;C#Threading&quot;, C=US"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="bc3c9d55-f19b-4ca3-8b73-359eac6fd9e6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FileManager</DisplayName>
-    <PublisherDisplayName>rober</PublisherDisplayName>
+    <PublisherDisplayName>LeMaRoCh</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -37,7 +37,7 @@
         DisplayName="FileManager"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="FileManager"
+        Description="FileManager | C# Threading @ NHL Stenden 2023"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
